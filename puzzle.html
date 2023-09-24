@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<audio id="victorySound" src="audio/victory.mp3" preload="auto"></audio>
+<html>
+<head>
+    <title>Sliding Puzzle</title>
+    <script>
+        var boardSize = 3;
+        var board = [
+            ["p1.png", "p2.png", "p3.png"],
+            ["p4.png", "p5.png", "p6.png"],
+            ["p7.png", "p8.png", "p0.png"]
+        ];
+        var emptyTile = { x: 2, y: 2 };
+        var moveHistory = [];
+        var isProcessing = false; // Flag to indicate if the puzzle is being shuffled or solved
+
+        function checkSolved() {
+            var solvedBoard = [
+                ["p1.png", "p2.png", "p3.png"],
+                ["p4.png", "p5.png", "p6.png"],
+                ["p7.png", "p8.png", "p0.png"]
+            ];
+
+            for (var i = 0; i < boardSize; i++) {
+                for (var j = 0; j < boardSize; j++) {
+                    if (board[i][j] !== solvedBoard[i][j]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function movepiece(row, col, recordMove = true) {
+            var xDistance = col - emptyTile.x;
+            var yDistance = row - emptyTile.y;
+
+            if ((Math.abs(xDistance) === 1 && yDistance === 0) || (Math.abs(yDistance) === 1 && xDistance === 0)) {
+                var temp = board[row][col];
+                board[row][col] = board[emptyTile.y][emptyTile.x];
+                board[emptyTile.y][emptyTile.x] = temp;
+
+                var id1 = row.toString() + col.toString();
+                var id2 = emptyTile.y.toString() + emptyTile.x.toString();
+                var block1 = document.getElementById(id1);
+                var block2 = document.getElementById(id2);
+                var tempSrc = block1.src;
+                block1.src = block2.src;
+                block2.src = tempSrc;
+
+                if (recordMove) {
+                    moveHistory.push({ x: emptyTile.x, y: emptyTile.y });
+                }
+
+                emptyTile.x = col;
+                emptyTile.y = row;
+
+                if (!isProcessing && checkSolved()) {
+                    setTimeout(function() {
+			var victorySound = document.getElementById("victorySound");
+       			victorySound.play();
+        		alert("Congratulations! You solved the puzzle!");
+			
+    		}, 300);
+                }
+            }
+        }
+
+        function shuffleBoard() {
+            isProcessing = true;
+            moveHistory = [];
+            var moves = 10;
+            for (var i = 0; i < moves; i++) {
+                var neighbors = [];
+
+                if (emptyTile.x > 0) neighbors.push({ x: emptyTile.x - 1, y: emptyTile.y });
+                if (emptyTile.x < boardSize - 1) neighbors.push({ x: emptyTile.x + 1, y: emptyTile.y });
+                if (emptyTile.y > 0) neighbors.push({ x: emptyTile.x, y: emptyTile.y - 1 });
+                if (emptyTile.y < boardSize - 1) neighbors.push({ x: emptyTile.x, y: emptyTile.y + 1 });
+
+                var randomIndex = Math.floor(Math.random() * neighbors.length);
+                var selectedTile = neighbors[randomIndex];
+
+                movepiece(selectedTile.y, selectedTile.x);
+            }
+            isProcessing = false;
+        }
+
+        function solvePuzzle() {
+            isProcessing = true;
+            var reverseMoves = moveHistory.reverse();
+            var i = 0;
+            var interval = setInterval(function() {
+                if (i < reverseMoves.length) {
+                    movepiece(reverseMoves[i].y, reverseMoves[i].x, false);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    isProcessing = false;
+                }
+            }, 500);
+        }
+
+        window.onload = function() {
+            shuffleBoard();
+        };
+    </script>
+</head>
+<body>
+    <button onclick="shuffleBoard()">Shuffle</button>
+    <button onclick="solvePuzzle()">Solve</button>
+    <table border=1>
+        <tr>
+            <td><img src="images/p1.png" onclick="movepiece(0,0)" id="00"></td>
+            <td><img src="images/p2.png" onclick="movepiece(0,1)" id="01"></td>
+            <td><img src="images/p3.png" onclick="movepiece(0,2)" id="02"></td>
+        </tr>
+        <tr>
+            <td><img src="images/p4.png" onclick="movepiece(1,0)" id="10"></td>
+            <td><img src="images/p5.png" onclick="movepiece(1,1)" id="11"></td>
+            <td><img src="images/p6.png" onclick="movepiece(1,2)" id="12"></td>
+        </tr>
+        <tr>
+            <td><img src="images/p7.png" onclick="movepiece(2,0)" id="20"></td>
+            <td><img src="images/p8.png" onclick="movepiece(2,1)" id="21"></td>
+            <td><img src="images/p0.png" onclick="movepiece(2,2)" id="22"></td>
+        </tr>
+    </table>
+</body>
+</html>
