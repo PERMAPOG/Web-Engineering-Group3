@@ -1,0 +1,94 @@
+.content{
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    background-color: fuchsia;
+
+
+}
+
+.list {
+    text-align: center;
+    justify-content: center;
+    background-color: aquamarine;
+    color: black;
+}
+
+header {
+    margin: 0;
+    padding: 0;
+
+}
+
+
+ol{
+    text-align: center;
+    list-style-type: upper-roman;
+}
+li{
+    text-align: center;
+    list-style-position: inside;
+}
+
+.youtube-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+th{
+    background-color:rgb(18, 136, 204);
+    color: rgba(212, 1, 227, 0.82);
+    padding: 10px;
+    text-align: center;
+}
+tr:hover{
+    background-color: blue;
+}
+th {
+    border-bottom-color: red;
+    border-bottom: 3px solid;
+   /* text-shadow: 5px 5px black; */
+}
+
+td{
+    border-bottom-color: red;
+    border-bottom: 3px solid;
+
+}
+
+.puzzle  {
+    margin: 0;
+    padding: 0;
+    border-bottom: 0;
+    border-top: 0;
+}
+
+p{
+    text-align: center;
+   
+    color:black;
+    text-decoration-color: blueviolet;
+    border:30px;
+    padding: 30px;
+    border-color:red;
+}
+body{
+    background-color:skyblue;
+    color:crimson;
+}
+.profile-img {
+    border: 30px solid crimson;
+}
+/* Style for <h1> and <h2> headers */
+h1, h2 {
+
+    text-align: center;
+    color: black; /* Black text color */
+    font-family: Arial, sans-serif;
+    font-weight: bold; /* Bold font */
+    text-align: left;
+    background-color: blue;
+    text-shadow: 2px 2px red;
+  }
