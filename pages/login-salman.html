@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        background-color: #f8f8f8;
+        padding: 50px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+      h2 {
+        text-align: center;
+        color: black;
+      }
+      .form-group {
+        margin: 15px;
+        justify-content: center;
+        align-items: center;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #b6b6b6;
+        border-radius: 3px;
+      }
+      button {
+        background: linear-gradient(to bottom, #73b1f3 0%, #2269b4 100%);
+        color: #fff;
+        border: none;
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-bottom: 15px;
+      }
+      button:hover {
+        background: linear-gradient(to bottom, #278bf7 0%, #0a44b8 100%);
+      }
+
+      a {
+        font-size: 14px;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Welcome to Salman Khan</h2>
+      <h2>Login</h2>
+      <form action="your-login-action.php" method="POST">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit">Login</button>
+        <a href="#" class="Forgot-page">Forgot page</a>
+      </form>
+      <img src="../images/SK-Table.png" alt="Table Image" />
+    </div>
+  </body>
+</html>
