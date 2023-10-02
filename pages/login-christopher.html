@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        .login-container{
+            max-width: 350px;
+            margin: auto;
+            padding: 40px;
+            border: 5px dotted rgb(8, 135, 139);
+            border-radius: 10px;
+            background-color: rgba(159, 207, 219, 0.9); 
+        }
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #0845b6;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 28px;
+            padding: 20px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Christopher Flores Login</h2>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class = "button">Log in</button>
+        </form>
+        <p><a href="#">Forgot password</a></p>
+        <img src="table_image.png" alt="Table" class="table-image">
+    </div>
+</body>
+</html>
