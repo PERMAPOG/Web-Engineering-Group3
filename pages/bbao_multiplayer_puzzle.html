@@ -129,20 +129,27 @@
 		function player1Win() {
 				var message = "Player 1 wins";
 				var xhr = new XMLHttpRequest();
-				xhr.open("GET", "write.php?data=" + message, true);
+				xhr.open("GET", "bbao_write.php?data=" + message, true);
 				xhr.send();
 			}
 			
 		function player2Win() {
 			var message = "Player 2 wins";
 			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "write.php?data=" + message, true);
+			xhr.open("GET", "bbao_write.php?data=" + message, true);
+			xhr.send();		
+		}
+		
+		function resetGame() {
+			var message = "New Game";
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "bbao_write.php?data=" + message, true);
 			xhr.send();		
 		}
 		
 		function updateResult() {
 			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "read.php?filename=bbao_slide.txt", true);
+			xhr.open("GET", "bbao_read.php?filename=bbao_slide.txt", true);
 			xhr.send();
 
 			xhr.onreadystatechange = function () {
@@ -162,6 +169,7 @@
     <button onclick="solvePuzzle()">Solve</button>
 	<button onclick="player1Win()">Player 1 Done</button>
 	<button onclick="player2Win()">Player 2 Done</button>
+	<button onclick="resetGame()">New game</button>
     
 	<div id="result"></div>
 	
@@ -193,6 +201,8 @@
 
 
     </table>
+	<a href="../pages/login-bbao.html" class="btn btn-primary"> Main Login Page</a>
+		 
 
 
 </body>

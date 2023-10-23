@@ -6,10 +6,10 @@ $userEmail = $_POST["email"];
 $userPassword = $_POST["password"];
 
 if ($userEmail === $validEmail && $userPassword === $validPassword) {
-    header("Location: success.html");
+    header("Location: bbao_loginsuccess.html");
     exit();
 } else {
-    header("Location: invalidaccess.html");
+    header("Location: bbao_logininvalid.html");
     exit();
 }
 ?>
