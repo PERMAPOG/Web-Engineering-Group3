@@ -153,7 +153,7 @@
                 document.getElementById('hangmanArt').innerText = gallows[6 - lives];
                 document.getElementById('triedLetters').innerText = 'Tried Letters: ' + triedLetters; // Update the display
             }
-            xhttp.open("GET", "cj-readfromfile.php?filename=game.txt", true);
+            xhttp.open("GET", "cj-readfromfile.php?filename=cj-game.txt", true);
             xhttp.send();
 
             setTimeout(checkfile, 1000);
