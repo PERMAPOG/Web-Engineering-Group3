@@ -25,6 +25,7 @@
             emptyTile = { x: 3, y: 3 };
             moveHistory = [];
             updateBoardUI();
+		
         }
 
         function updateBoardUI() {
@@ -35,6 +36,7 @@
                     block.src = "../images/" + board[i][j];
                 }
             }
+			
         }
         function checkSolved() {
             var solvedBoard = [
@@ -52,6 +54,7 @@
                 }
             }
             return true;
+			savePuzzleState();
         }
 		
         function movepiece(row, col, recordMove = true) {
@@ -87,6 +90,7 @@
     		}, 300);
                 }
             }
+			savePuzzleState();
         }
 
         function shuffleBoard() {
@@ -109,6 +113,7 @@
                 movepiece(selectedTile.y, selectedTile.x);
             }
             isProcessing = false;
+			savePuzzleState();
         }
 
         function solvePuzzle() {
@@ -124,55 +129,57 @@
                     isProcessing = false;
                 }
             }, 500);
+			savePuzzleState();
         }
-		
-		function player1Win() {
-				var message = "Player 1 wins";
-				var xhr = new XMLHttpRequest();
-				xhr.open("GET", "bbao_write.php?data=" + message, true);
-				xhr.send();
-			}
-			
-		function player2Win() {
-			var message = "Player 2 wins";
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "bbao_write.php?data=" + message, true);
-			xhr.send();		
-		}
-		
-		function resetGame() {
-			var message = "New Game";
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "bbao_write.php?data=" + message, true);
-			xhr.send();		
-		}
-		
-		function updateResult() {
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "bbao_read.php?filename=bbao_slide.txt", true);
-			xhr.send();
 
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					document.getElementById("result").innerHTML = xhr.responseText;
-				}
-			};
-		}
+	
 		
-		updateResult();
-		setInterval(updateResult, 1000);
+		
 		
 		window.onload = function() {
             shuffleBoard();
+			updateResult();
         };
+		
+		function savePuzzleState() {
+		var puzzleState = {
+			board: board,
+			emptyTile: emptyTile
+		};
+		var jsonState = JSON.stringify(puzzleState);
+		
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "bbao_save.php?data=" + jsonState, true);
+		xhr.send();
+	}
+	
+		function loadPuzzleState() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'bbao_load.php', true);
+		xhr.send();
+		
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+				var savedState = JSON.parse(xhr.responseText);
+				board = savedState.board;
+				emptyTile = savedState.emptyTile;
+				moveHistory = [];
+				updateBoardUI();
+			} else {
+				console.error('Failed to load puzzle state.');
+			}
+		};
+	}
+
+	setInterval(loadPuzzleState, 1000);
+	
+
     </script>
 </head>
 <body>
     <button onclick="shuffleBoard()">Shuffle</button>
     <button onclick="solvePuzzle()">Solve</button>
-	<button onclick="player1Win()">Player 1 Done</button>
-	<button onclick="player2Win()">Player 2 Done</button>
-	<button onclick="resetGame()">New game</button>
+
     
 	<div id="result"></div>
 	
