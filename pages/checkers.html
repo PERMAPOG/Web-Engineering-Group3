@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkers</title>
+    <style>
+        #board {
+            display: grid;
+            grid-template-columns: repeat(8, 40px);
+            grid-template-rows: repeat(8, 40px);
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid black;
+        }
+
+        .brown-cell{
+            background-color: brown;
+        }
+
+        .lightbrown-cell{
+            background-color: rgba(101, 97, 16, 0.738);
+        }
+
+        .piece {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .red-piece {
+            background-color: red;
+        }
+
+        .black-piece {
+            background-color: black;
+        }
+
+        .king {
+            border: 2px solid gold;
+        }
+
+        .selected {
+            border: 2px solid green;
+        }
+        .highlighted{
+            background-color: rgba(29, 248, 5, 0.992);
+        }
+    </style>
+</head>
+<body>
+<div id="board"></div>
+
+<script>
+    const board = document.getElementById('board');
+    const rows = 8;
+    const cols = 8;
+    let selectedPiece = null;
+    let currentPlayer = 'red';
+
+    // Initialize board
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+
+            if ((row + col) % 2 === 0) {
+                cell.classList.add('lightbrown-cell');
+            }
+            else{
+                cell.classList.add('brown-cell');
+                if(row < 3) createPiece(cell, 'red');
+                else if(row > 4) createPiece(cell, 'black');
+            }
+            board.appendChild(cell);
+        }
+    }
+
+    function createPiece(cell, color) {
+        const piece = document.createElement('div');
+        piece.classList.add('piece', `${color}-piece`);
+        piece.dataset.color = color;
+        cell.appendChild(piece);
+    }
+
+    document.querySelectorAll('.piece').forEach(piece => {
+        piece.addEventListener('click', selectPiece);
+    });
+
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.addEventListener('click', movePiece);
+    });
+
+    function selectPiece(e) {
+        clearHighlights();
+        if (e.target.dataset.color !== currentPlayer){
+            return;
+        }
+        if (selectedPiece) {
+            selectedPiece.classList.remove('selected');
+        }
+        selectedPiece = e.target;
+        selectedPiece.classList.add('selected');
+        highlightAvailableMoves(selectedPiece);
+    }
+
+    function highlightAvailableMoves(piece) {
+    const row = parseInt(piece.parentElement.dataset.row);
+    const col = parseInt(piece.parentElement.dataset.col);
+    const potentialMoves = piece.classList.contains('king') ? 
+                           [[1, 1], [1, -1], [-1, 1], [-1, -1], [2, 2], [2, -2], [-2, 2], [-2, -2]] : 
+                           (currentPlayer === 'red' ? [[1, 1], [1, -1], [2, 2], [2, -2]] : [[-1, 1], [-1, -1], [-2, 2], [-2, -2]]);
+    
+    for (let move of potentialMoves) {
+        const newRow = row + move[0];
+        const newCol = col + move[1];
+        const targetCell = document.querySelector(`.cell[data-row="${newRow}"][data-col="${newCol}"]`);
+        
+        if (!targetCell || targetCell.firstChild) continue; // Skip if the cell does not exist or is occupied
+
+        // Check if the move is valid
+        const isMoveValid = isValidMove(newRow - row, newCol - col);
+        const isCaptureValid = isValidCapture(newRow - row, newCol - col) && isOpponentPieceInBetween(row, col, newRow, newCol);
+        
+        if (isMoveValid || isCaptureValid) {
+            targetCell.classList.add('highlighted');
+        }
+    }
+}
+
+    function isOpponentPieceInBetween(startRow, startCol, endRow, endCol) {
+        const midRow = (startRow + endRow) / 2;
+        const midCol = (startCol + endCol) / 2;
+        const middleCell = document.querySelector(`.cell[data-row="${midRow}"][data-col="${midCol}"]`);
+        return middleCell.firstChild && middleCell.firstChild.dataset.color !== currentPlayer;
+    }
+
+
+    function clearHighlights(){
+        document.querySelectorAll('.highlighted').forEach(cell => {
+        cell.classList.remove('highlighted');
+        });
+    }
+
+    function movePiece(e) {
+        const targetCell = e.target.classList.contains('piece') ? e.target.parentElement : e.target;
+        if (!selectedPiece || targetCell.firstChild) return;
+
+        const startRow = parseInt(selectedPiece.parentElement.dataset.row);
+        const startCol = parseInt(selectedPiece.parentElement.dataset.col);
+        const endRow = parseInt(targetCell.dataset.row);
+        const endCol = parseInt(targetCell.dataset.col);
+
+        const rowDiff = endRow - startRow;
+        const colDiff = endCol - startCol;
+
+        if (isValidMove(rowDiff, colDiff) || isValidCapture(rowDiff, colDiff)) {
+            targetCell.appendChild(selectedPiece);
+            clearHighlights();
+            selectedPiece.classList.remove('selected');
+
+        // Check for captures and remove the captured piece
+            if (Math.abs(rowDiff) === 2) {
+                const capturedRow = startRow + rowDiff / 2;
+                const capturedCol = startCol + colDiff / 2;
+                const capturedCell = document.querySelector(`.cell[data-row="${capturedRow}"][data-col="${capturedCol}"]`);
+            if (capturedCell.firstChild) {
+                capturedCell.firstChild.remove();
+            }
+        }
+        //Check if there's a winner after handling captures
+        checkForWinner();
+        // Kinging logic
+        if ((currentPlayer === 'red' && endRow == 7) || (currentPlayer === 'black' && endRow == 0)) {
+            selectedPiece.classList.add('king');
+        }
+
+        // Switch turns
+        currentPlayer = currentPlayer === 'red' ? 'black' : 'red';
+        saveGameState();
+        }
+        selectedPiece = null;
+    }
+
+
+    function isValidMove(rowDiff, colDiff) {
+        // Regular forward moves for non-kings
+        if (!selectedPiece.classList.contains('king')) {
+            if (currentPlayer === 'red' && rowDiff === 1 && Math.abs(colDiff) === 1) return true;
+            if (currentPlayer === 'black' && rowDiff === -1 && Math.abs(colDiff) === 1) return true;
+        } else { // Moves for kings (both forward and backward)
+            if (Math.abs(rowDiff) === 1 && Math.abs(colDiff) === 1) return true;
+        }
+        return false;
+    }
+
+    function isValidCapture(rowDiff, colDiff) {
+        if (Math.abs(rowDiff) !== 2 || Math.abs(colDiff) !== 2) return false;
+
+        const midRow = parseInt(selectedPiece.parentElement.dataset.row) + rowDiff / 2;
+        const midCol = parseInt(selectedPiece.parentElement.dataset.col) + colDiff / 2;
+        const middleCell = document.querySelector(`.cell[data-row="${midRow}"][data-col="${midCol}"]`);
+
+        if (!middleCell.firstChild || middleCell.firstChild.dataset.color === currentPlayer) return false;
+
+        // For non-kings, ensure they are moving forward
+        if (!selectedPiece.classList.contains('king')) {
+            if (currentPlayer === 'red' && rowDiff !== 2) return false;
+            if (currentPlayer === 'black' && rowDiff !== -2) return false;
+        }
+
+        return true;
+    }
+
+    function canCapture(piece) {
+        const row = parseInt(piece.parentElement.dataset.row);
+        const col = parseInt(piece.parentElement.dataset.col);
+        const moves = piece.classList.contains('king') ? 
+                      [[2, 2], [2, -2], [-2, 2], [-2, -2]] : 
+                      (currentPlayer === 'red' ? [[2, 2], [2, -2]] : [[-2, 2], [-2, -2]]);
+        
+        for (let move of moves) {
+            if (isValidCapture(move[0], move[1])) return true;
+        }
+        return false;
+    }
+
+    function checkForWinner(){
+        const redCheckers = document.querySelectorAll('.red-piece').length;
+        const blackCheckers = document.querySelectorAll('.black-piece').length;
+
+        if(redCheckers === 0){
+            alert("Black Wins!");
+        }
+        else if(blackCheckers === 0){
+            alert("Red Wins!");
+        }
+    }
+
+    function saveGameState() {
+    const xhr = new XMLHttpRequest();
+    const data = JSON.stringify({
+        board: board.innerHTML,
+        currentPlayer: currentPlayer
+    });
+
+    xhr.open('GET', `writetofile.php?data=${encodeURIComponent(data)}`, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+        }
+    };
+    xhr.send();
+}
+
+function loadGameState() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'readfromfile.php', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            const gameState = JSON.parse(xhr.responseText);
+            board.innerHTML = gameState.board;
+            currentPlayer = gameState.currentPlayer;
+        }
+    };
+    xhr.send();
+}
+setInterval(function() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'readfromfile.php?filename=game.txt', true);
+    xhr.onload = function() {
+        if (this.status == 200 && this.responseText) {
+            const gameState = JSON.parse(this.responseText);
+            if (board.innerHTML !== gameState.board) {
+                board.innerHTML = gameState.board;
+                currentPlayer = gameState.currentPlayer;
+                // Reattach event listeners after updating the board.
+                attachEventListeners();
+            }
+        }
+    };
+    xhr.send();
+}, 3000);
+
+
+
+
+</script>
+</body>
+</html>
