@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #game {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button {
+            margin-left: 5px;
+        }
+
+        #hangmanArt {
+            font-family: monospace;
+            color: red;
+        }
+
+        #hint {
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body onload="checkfile()">
+
+    <div id="game">
+        <p id="wordToGuess"></p>
+        <input type="text" id="letter" maxlength="1" />
+        <button onclick="guess()">Guess</button>
+        <button onclick="resetGame()">Reset</button>
+        <p id="lives"></p>
+        <p id="message"></p>
+        <p id="playerTurn">Player 1's Turn</p>
+        <pre id="hangmanArt"></pre>
+        <p id="hint">Hint: That's the name of the game!</p>
+        <p id="triedLetters">Tried Letters: </p> <!-- Added element to display tried letters -->
+    </div>
+
+    <script>
+        var word = 'HANGMAN';
+        var guessedWord = '_'.repeat(word.length);
+        var lives = 6;
+        var currentPlayer = 1;
+        var triedLetters = ''; // Added variable to store tried letters
+        var gallows = [
+            '  +---+\n  |   |\n      |\n      |\n      |\n      |\n========',
+            '  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n========',
+            '  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n========',
+            '  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n========',
+            '  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========'
+        ];
+
+        document.getElementById('wordToGuess').innerText = guessedWord;
+        document.getElementById('lives').innerText = 'Lives: ' + lives;
+        document.getElementById('playerTurn').innerText = 'Player ' + currentPlayer + '\'s Turn';
+        document.getElementById('hangmanArt').innerText = gallows[6 - lives];
+        document.getElementById('triedLetters').innerText = 'Tried Letters: ' + triedLetters; // Initialize tried letters
+
+        function guess() {
+            var letter = document.getElementById('letter').value.toUpperCase();
+            if (letter && !triedLetters.includes(letter)) { // Check if the letter has not been tried before
+                triedLetters += letter + ' '; // Add the letter to tried letters
+                document.getElementById('triedLetters').innerText = 'Tried Letters: ' + triedLetters; // Update the display
+
+                var newGuessedWord = '';
+                var correctGuess = false;
+
+                for (var i = 0; i < word.length; i++) {
+                    if (word[i] === letter) {
+                        newGuessedWord += letter;
+                        correctGuess = true;
+                    } else {
+                        newGuessedWord += guessedWord[i];
+                    }
+                }
+
+                guessedWord = newGuessedWord;
+                document.getElementById('wordToGuess').innerText = guessedWord;
+
+                if (!correctGuess) {
+                    lives--;
+                }
+
+                document.getElementById('lives').innerText = 'Lives: ' + lives;
+                document.getElementById('hangmanArt').innerText = gallows[6 - lives];
+
+                if (!guessedWord.includes('_')) {
+                    document.getElementById('message').innerText = 'Player ' + currentPlayer + ' won!';
+                } else if (lives === 0) {
+                    document.getElementById('message').innerText = 'Game over!';
+                } else {
+                    currentPlayer = 3 - currentPlayer;
+                    document.getElementById('playerTurn').innerText = 'Player ' + currentPlayer + '\'s Turn';
+                }
+
+                UpdateGameStatus();
+            }
+        }
+
+        function resetGame() {
+            guessedWord = '_'.repeat(word.length);
+            lives = 6;
+            currentPlayer = 1;
+            triedLetters = ''; // Reset tried letters
+            document.getElementById('wordToGuess').innerText = guessedWord;
+            document.getElementById('lives').innerText = 'Lives: ' + lives;
+            document.getElementById('message').innerText = '';
+            document.getElementById('playerTurn').innerText = 'Player 1\'s Turn';
+            document.getElementById('hangmanArt').innerText = gallows[6 - lives];
+            document.getElementById('triedLetters').innerText = 'Tried Letters: ' + triedLetters; // Reset the display
+            UpdateGameStatus();
+        }
+
+        function UpdateGameStatus() {
+            const gameStatus = guessedWord + ',' + lives + ',' + currentPlayer + ',' + triedLetters.trim(); // Include tried letters in the game status
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "cj-writetofile.php?data=" + encodeURIComponent(gameStatus), true); // URL encode the game status
+            xhttp.send();
+        }
+
+        function checkfile() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const [newGuessedWord, newLives, newCurrentPlayer, newTriedLetters] = this.responseText.split(',');
+                guessedWord = newGuessedWord;
+                lives = parseInt(newLives);
+                currentPlayer = parseInt(newCurrentPlayer);
+                triedLetters = newTriedLetters.replace(/,/g, ' '); // Format the tried letters
+                document.getElementById('wordToGuess').innerText = guessedWord;
+                document.getElementById('lives').innerText = 'Lives: ' + lives;
+                document.getElementById('playerTurn').innerText = 'Player ' + currentPlayer + '\'s Turn';
+                document.getElementById('hangmanArt').innerText = gallows[6 - lives];
+                document.getElementById('triedLetters').innerText = 'Tried Letters: ' + triedLetters; // Update the display
+            }
+            xhttp.open("GET", "cj-readfromfile.php?filename=game.txt", true);
+            xhttp.send();
+
+            setTimeout(checkfile, 1000);
+        }
+    </script>
+</body>
+
+</html>
