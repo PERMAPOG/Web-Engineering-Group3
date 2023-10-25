@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <h1>Shopping Cart</h1>
+
+    <form action="generate_bill.php" method="post">
+      <h2>Select Items:</h2>
+
+      <div class="item">
+        <input
+          type="checkbox"
+          name="items[Iphone]"
+          value="https://www.phonedaddy.com/cdn/shop/products/11promax-rose_89661938-f9e9-4b9c-9cc1-f7dc63f4c120_256x.jpg?v=1654728379"
+        />
+        <img
+          src="https://www.phonedaddy.com/cdn/shop/products/11promax-rose_89661938-f9e9-4b9c-9cc1-f7dc63f4c120_256x.jpg?v=1654728379"
+          alt="Iphone"
+        />
+        Add to Cart: Iphone - $100.00
+      </div>
+
+      <div class="item">
+        <input
+          type="checkbox"
+          name="items[Ipad]"
+          value="https://helios-i.mashable.com/imagery/articles/00QHEnYU4nkRSVn2oiQCDfi/images-1.fill.size_256x256.v1696945137.png"
+        />
+        <img
+          src="https://helios-i.mashable.com/imagery/articles/00QHEnYU4nkRSVn2oiQCDfi/images-1.fill.size_256x256.v1696945137.png"
+          alt="Ipad"
+        />
+        Add to Cart: Ipad - $200.00
+      </div>
+
+      <div class="item">
+        <input
+          type="checkbox"
+          name="items[Airpods]"
+          value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjXhzxG7pU0I6EHD-clmRR1Tl7PIEF8Hl2luR7EDZfg6wIx3xsUN8_2KfJ5iDTOB_g4zo&usqp=CAU"
+        />
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjXhzxG7pU0I6EHD-clmRR1Tl7PIEF8Hl2luR7EDZfg6wIx3xsUN8_2KfJ5iDTOB_g4zo&usqp=CAU"
+          alt="Airpods"
+        />
+        Add to Cart: Airpods - $150.00
+      </div>
+
+      <div class="item">
+        <input
+          type="checkbox"
+          name="items[Headphone]"
+          value="https://helios-i.mashable.com/imagery/articles/01TyMG1fwKMv87jcmBfk3A9/images-3.fill.size_256x256.v1692113150.png"
+        />
+        <img
+          src="https://helios-i.mashable.com/imagery/articles/01TyMG1fwKMv87jcmBfk3A9/images-3.fill.size_256x256.v1692113150.png"
+          alt="Headphone"
+        />
+        Add to Cart: Headphone - $250.00
+      </div>
+
+      <div class="item">
+        <input
+          type="checkbox"
+          name="items[Laptop]"
+          value="https://images.shopcdn.co.uk/24/9b/249bb7eb4be912ea31ab878aeca267cb/256x256/webp/resize?t=1683819715"
+        />
+        <img
+          src="https://images.shopcdn.co.uk/24/9b/249bb7eb4be912ea31ab878aeca267cb/256x256/webp/resize?t=1683819715"
+          alt="Laptop"
+        />
+        Add to Cart: Laptop - $300.00
+      </div>
+
+      <div class="item">
+        <input
+          type="checkbox"
+          name="items[PC]"
+          value="https://cdna.pcpartpicker.com/static/forever/images/product/372a584cebeca5f57266bf0f07e6831c.256p.jpg"
+        />
+        <img
+          src="https://cdna.pcpartpicker.com/static/forever/images/product/372a584cebeca5f57266bf0f07e6831c.256p.jpg"
+          alt="PC"
+        />
+        Add to Cart: Computer - $500.00
+      </div>
+
+      <h2>Shipping:</h2>
+      <input type="radio" name="shipping" value="standard" /> Standard Shipping
+      - $5.00<br />
+      <input type="radio" name="shipping" value="express" /> Express Shipping -
+      $15.00<br />
+
+      <input type="submit" value="Generate Bill" />
+    </form>
+  </body>
+</html>
