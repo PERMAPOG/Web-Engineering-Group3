@@ -142,10 +142,41 @@
         [12, 19, 26, 33],
         [13, 20, 27, 34],
       ];
+
       let currentPlayer = 1;
 
+      // Function to send the move to the server
+      function sendMoveToServer(move) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "angel_store_move.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        let data = "move=" + move;
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText); // You can handle the response here
+          }
+        };
+        xhr.send(data);
+      }
+
+      // Function to get the current game state from the server
+      function getGameStateFromServer() {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "ange_get_state.php", true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            let gameState = JSON.parse(xhr.responseText);
+            // Process the retrieved gameState as needed
+          }
+        };
+        xhr.send();
+      }
+
       // Event listener for DOM content loading
-      document.addEventListener("DOMContentLoaded", loadDOM);
+      document.addEventListener("DOMContentLoaded", function () {
+        loadDOM();
+        getGameStateFromServer();
+      });
 
       // Function to load the initial state of the game
       function loadDOM() {
