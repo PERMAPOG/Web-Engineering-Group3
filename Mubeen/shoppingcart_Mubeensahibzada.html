@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Shopping Cart</title>
+    <style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
+#customers td, #customers th {
+  border: 1px solid #ddd;
+    text-align: center;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #04AA6D;
+  color: white;
+}
+     input[type="submit"] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+  background-color: #04AA6D;
+  color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #006600;
+        }
+    </style>
+</head>
+<body>
+    <h1>Watch Shopping Cart</h1>
+	
+	<form action="shoppingcart_Mubeensahibzada.php" method="post">
+    <table id="customers">
+        <thead>
+            <tr>
+                
+                <th colspan="2">Watch</th>
+				<th>Model</th>
+				<th>Year</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Select</th>
+			
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Watch 1 -->
+            <tr>
+                <td> <img src="https://www.swissluxury.com/product_images/228398TBRbkbdp.jpg" alt="Rolex" height="100", width="100" </td>
+                <td>Rolex</td>
+				<td>Day-Date</td>
+                <td>2020</td>
+				<td>$48,000</td>
+			    <td><input type="checkbox" class="checkbox" name="watch[]" value="Day-Date"></td>
+                <td><input type="number" class="quantity" name="quantity[Day-Date]" value="1" min="1"></td>
+		    </tr>
+
+            <!-- Watch 2 -->
+            <tr>
+				<td> <img src="https://image.invaluable.com/housePhotos/FloridaEstate/48/641348/H21268-L166053684.jpg" alt="Timex" height="100", width="100"</td>
+                <td>Timex</td>
+				<td>Mickey Mouse</td>
+                <td>2022</td>
+				<td>$35</td>
+                <td><input type="checkbox" class="checkbox" name="watch[]" value="Mickey Mouse"></td>
+                <td><input type="number" class="quantity" name="quantity[Mickey Mouse]" value="1" min="1"></td>
+            </tr>
+            
+			<!-- Watch 3 -->
+            <tr>
+				<td> <img src="https://www.patekphilippe.to/wp-content/uploads/2022/01/5711-1A-010-1.jpg" alt="Patek" height="100", width="100"</td>
+                <td>Patek Philippe</td>
+				<td>Nautilus</td>
+                <td>2022</td>
+				<td>$84,999</td>
+                <td><input type="checkbox" class="checkbox" name="watch[]" value="Nautilus"></td>
+                <td><input type="number" class="quantity" name="quantity[Nautilus]" value="1" min="1"></td>
+            </tr>
+			<!-- Watch 4 -->
+            <tr>
+				<td> <img src="https://cdn.swisswatchexpo.com/productphotos/5/21/audemars-piguet-royal-oak-rose-gold-chronograph-mens-watch-26331or-box-card-43394_49013_md.jpg" alt="Patek" height="100", width="100"</td>
+                <td>Audemars Piguet</td>
+				<td>Royal Oak</td>
+                <td>2023</td>
+				<td>$73,999</td>
+                <td><input type="checkbox" class="checkbox" name="watch[]" value="Royal Oak"></td>
+                <td><input type="number" class="quantity" name="quantity[Royal Oak]" value="1" min="1"></td>
+            </tr>
+			<!-- Watch 5 -->
+            <tr>
+				<td> <img src="data:image/jpeg;base64,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" alt="Patek" height="100", width="100"</td>
+                <td>Richard Mille</td>
+				<td>RM 055</td>
+                <td>2019</td>
+				<td>$120,000</td>
+                <td><input type="checkbox" class="checkbox" name="watch[]" value="RM 055"td>
+				<td><input type="number" class="quantity" name="quantity[RM 055]" value="1" min="1"></td>
+            </tr>
+			<!-- Watch 6 -->
+            <tr>
+				<td> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu_xtwNXe356a8zqMwX6UpemzOI4Vf8wk58w&usqp=CAU" alt="Patek" height="100", width="100"</td>
+                <td>Breitling</td>
+				<td>Navitimer</td>
+                <td>2022</td>
+				<td>$13,999</td>
+                <td><input type="checkbox" class="checkbox" name="watch[]" value="Navitimer"></td>
+                <td><input type="number" class="quantity" name="quantity[Navitimer]" value="1" min="1"></td>
+            </tr>
+            <!-- Add more watch items here as needed -->
+        </tbody>
+    </table>
+
+ <br>
+      <input type="submit" value="Checkout">
+    </form>
+
+</body>
+</html>
