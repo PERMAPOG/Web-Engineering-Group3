@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nursery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('../cjaime/cj-shopimages/Frutiger.png'); /* A sandy beach background */
+            background-size: cover;
+         
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            background-color: rgba(0, 128, 0, 0.7); /* Green with some transparency */
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            background-color: rgba(255, 255, 255, 0.7); /* White with some transparency */
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        img {
+            margin-right: 15px;
+        }
+
+        .quantity {
+            width: 50px;
+            margin-left: 10px;
+        }
+
+        input[type="submit"] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #008000; 
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #006600;
+        }
+
+    </style>
+  </head>
+  <body>
+    <h1>Nursery</h1>
+
+    <form action="shoppingcart.php" method="post">
+      <h2>Select Items:</h2>
+
+      <!-- Areca Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/ArecaPalm.jpg" width="100" height="75" alt="Areca Palm">
+        Areca Palm - $89.99
+        <input type="checkbox" name="palm[]" value="Areca Palm">
+        <input class="quantity" type="number" name="quantity[Areca Palm]" min="1" value="1">
+      </div>
+
+      <!-- Queen Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/QueenPalm.jpg" width="100" height="75" alt="Queen Palm">
+        Queen Palm - $149.99
+        <input type="checkbox" name="palm[]" value="Queen Palm">
+        <input class="quantity" type="number" name="quantity[Queen Palm]" min="1" value="1">
+      </div>
+
+      <!-- Date Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/DatePalm.jpg" width="100" height="75" alt="Date Palm">
+        Date Palm - $199.99
+        <input type="checkbox" name="palm[]" value="Date Palm">
+        <input class="quantity" type="number" name="quantity[Date Palm]" min="1" value="1">
+      </div>
+
+      <!-- Coconut Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/CoconutPalm.jpg" width="100" height="75" alt="Coconut Palm">
+        Coconut Palm - $299.99
+        <input type="checkbox" name="palm[]" value="Coconut Palm">
+        <input class="quantity" type="number" name="quantity[Coconut Palm]" min="1" value="1">
+      </div>
+
+      <!-- Sago Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/SagoPalm.jpg" width="100" height="75" alt="Sago Palm">
+        Sago Palm - $79.99
+        <input type="checkbox" name="palm[]" value="Sago Palm">
+        <input class="quantity" type="number" name="quantity[Sago Palm]" min="1" value="1">
+      </div>
+
+      <!-- Windmill Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/WindmillPalm.jpg" width="100" height="75" alt="Windmill Palm">
+        Windmill Palm - $109.99
+        <input type="checkbox" name="palm[]" value="Windmill Palm">
+        <input class="quantity" type="number" name="quantity[Windmill Palm]" min="1" value="1">
+      </div>
+
+      <!-- Pindo Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/PindoPalm.jpg" width="100" height="75" alt="Pindo Palm">
+        Pindo Palm - $139.99
+        <input type="checkbox" name="palm[]" value="Pindo Palm">
+        <input class="quantity" type="number" name="quantity[Pindo Palm]" min="1" value="1">
+      </div>
+
+      <!-- Bismarck Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/BismarckPalm.jpg" width="100" height="75" alt="Bismarck Palm">
+        Bismarck Palm - $159.99
+        <input type="checkbox" name="palm[]" value="Bismarck Palm">
+        <input class="quantity" type="number" name="quantity[Bismarck Palm]" min="1" value="1">
+      </div>
+
+      <!-- Majesty Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/MajestyPalm.jpg" width="100" height="75" alt="Majesty Palm">
+        Majesty Palm - $69.99
+        <input type="checkbox" name="palm[]" value="Majesty Palm">
+        <input class="quantity" type="number" name="quantity[Majesty Palm]" min="1" value="1">
+      </div>
+
+      <!-- Triangle Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/TrianglePalm.jpg" width="100" height="75" alt="Triangle Palm">
+        Triangle Palm - $129.99
+        <input type="checkbox" name="palm[]" value="Triangle Palm">
+        <input class="quantity" type="number" name="quantity[Triangle Palm]" min="1" value="1">
+      </div>
+
+      <!-- Bottle Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/BottlePalm.jpg" width="100" height="75" alt="Bottle Palm">
+        Bottle Palm - $99.99
+        <input type="checkbox" name="palm[]" value="Bottle Palm">
+        <input class="quantity" type="number" name="quantity[Bottle Palm]" min="1" value="1">
+      </div>
+
+      <!-- Spindle Palm -->
+      <div class="item">
+        <img src="../cjaime/cj-shopimages/SpindlePalm.jpg" width="100" height="75" alt="Spindle Palm">
+        Spindle Palm - $89.99
+        <input type="checkbox" name="palm[]" value="Spindle Palm">
+        <input class="quantity" type="number" name="quantity[Spindle Palm]" min="1" value="1">
+      </div>
+
+      <br>
+      <input type="submit" value="Checkout">
+    </form>
+    <br>
+  </body>
+</html>
