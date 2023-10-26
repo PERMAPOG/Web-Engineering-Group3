@@ -5,7 +5,11 @@ if(isset($_POST['move'])) {
     $move = $_POST['move'];
 
     // Append the move to the game state file
-    $file = 'game_state.txt';
+    $file = 'angel_game_state.txt';
     file_put_contents($file, $move.PHP_EOL, FILE_APPEND);
+
+    // Append the move to the game state
+    $current .= $move;
+    file_put_contents($file, $current);
 }
 ?>
