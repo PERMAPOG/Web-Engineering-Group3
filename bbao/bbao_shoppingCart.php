@@ -21,7 +21,8 @@
         $totalCost = 0;
 
         echo "<h2>Selected Items:</h2>";
-        foreach ($_POST['fish'] as $fishName => $fishName) {
+        foreach ($_POST['fish'] as $fishName => $fishImage) {
+			echo "<img src='$fishImage' alt='$fishName' width='100' height='75' />";
             echo $fishName . " - $" . $fishPrices[$fishName] . "<br>";
                 $totalCost += $fishPrices[$fishName];
             }
