@@ -1,0 +1,44 @@
+<!-- angel_shoppingcart.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shopping Cart</title>
+</head>
+
+<body>
+
+    <h1>Shopping Cart</h1>
+
+    <form action="angel_shoppingcart.php" method="post">
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Select</th>
+            </tr>
+            <tr>
+                <td>Item 1</td>
+                <td>$10.00</td>
+                <td><input type="number" name="item1" value="0"></td>
+                <td><input type="checkbox" name="selected_items[]" value="item1"></td>
+            </tr>
+            <tr>
+                <td>Item 2</td>
+                <td>$20.00</td>
+                <td><input type="number" name="item2" value="0"></td>
+                <td><input type="checkbox" name="selected_items[]" value="item2"></td>
+            </tr>
+            <!-- Add more items here -->
+        </table>
+
+        <br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+
+</html>
