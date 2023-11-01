@@ -1,0 +1,106 @@
+body {
+  background-color: #118ab2;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+
+header,
+footer {
+  background-color: #073b4c;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+.card {
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  color: #343a40;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+/*Styling for Connect 4 */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  padding-top: 10px;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.board {
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  height: 276px;
+  width: 330px;
+  background: blue;
+}
+
+.board div {
+  height: 40px;
+  width: 40px;
+  margin: 3px;
+  border-radius: 20px;
+  
+}
+
+.square {
+  background: green;
+}
+
+.taken {
+  /*background:red !important */
+}
+
+.currentPlayer {
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  padding-bottom: 5px;
+  
+}
+
+.player-one {
+  background: red;
+}
+
+.player-two {
+  background: yellow;
+}
+
+.restart {
+  background: red;
+  width: 200px;
+  height: 200px;
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
