@@ -135,6 +135,10 @@ footer {
   margin: 20px auto;
 }
 
+.cart-container h1 {
+  color: #fff;
+}
+
 .item {
 
   display: flex;

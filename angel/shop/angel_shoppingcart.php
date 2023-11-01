@@ -5,6 +5,22 @@
 
 <head>
     <title>Selected Items</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,8 +28,12 @@
     <h1>Selected Items</h1>
 
     <?php
-    if (isset($_POST['items'])) {
-        $items = $_POST['items'];
+    if (isset($_POST['selected_items'])) {
+        $selected_items = $_POST['selected_items'];
+        $items = array(
+            "coffee1" => array("name" => "Coffee with Milk", "price" => 5.00, "quantity" => $_POST['coffee1']),
+            // Add other items here
+        );
         $total = 0;
         $taxRate = 0.1; // Assuming 10% tax rate
         ?>
@@ -27,7 +47,8 @@
             </tr>
 
             <?php
-            foreach ($items as $item) {
+            foreach ($selected_items as $selected_item) {
+                $item = $items[$selected_item];
                 $itemName = $item['name'];
                 $itemPrice = $item['price'];
                 $itemQuantity = $item['quantity'];
