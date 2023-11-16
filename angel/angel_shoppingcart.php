@@ -4,6 +4,9 @@
 <html>
 
 <head>
+    <link rel="stylesheet" type="text/css" href="../angel/angel.css" />
+
+
     <title>Selected Items</title>
     <style>
         table {
@@ -31,9 +34,12 @@
     if (isset($_POST['selected_items'])) {
         $selected_items = $_POST['selected_items'];
         $items = array(
-            "coffee1" => array("name" => "Coffee with Milk", "price" => 5.00, "quantity" => $_POST['coffee1']),
-            // Add other items here
+            "coffee1" => array("name" => "Coffee with Milk", "price" => 5.00, "quantity" => isset($_POST['coffee1']) ? $_POST['coffee1'] : 0),
+            "coffee2" => array("name" => "Capuccio", "price" => 4.50, "quantity" => isset($_POST['coffee2']) ? $_POST['coffee2'] : 0),
+            "coffee3" => array("name" => "Arabic", "price" => 6.00, "quantity" => isset($_POST['coffee3']) ? $_POST['coffee3'] : 0),
+            "coffee4" => array("name" => "American", "price" => 3.50, "quantity" => isset($_POST['coffee4']) ? $_POST['coffee4'] : 0)
         );
+
         $total = 0;
         $taxRate = 0.1; // Assuming 10% tax rate
         ?>
@@ -89,6 +95,18 @@
         echo "<p>No items selected.</p>";
     }
     ?>
+
+
+<!--Footer -->
+<footer>
+      Group 3 <br>
+      <a href="../pages/bbao_landing.html">Brian Bao</a> •
+      <a href="../angel/angel_landing.html">Angel Crowe</a> •
+      <a href="../pages/login-christopher.html">Christopher Flores</a> •
+      <a href="../pages/cjLanding.html">Christian Jaime</a> •
+      <a href="../salman/landing-page/landingpage.html">Salman Khan</a> •
+      <a href="../pages/landing_Mubeensahibzada.html">Mubeen Sahibzada</a>
+    </footer>
 
 </body>
 

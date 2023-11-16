@@ -13,7 +13,7 @@
     integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
     crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" type="text/css" href="/angel/angel.css" />
+  <link rel="stylesheet" type="text/css" href="../angel/angel.css" />
 </head>
 
 <body>
@@ -37,7 +37,7 @@
       </div>
     </div>
   </div>
-  
+
 
   <!-- JavaScript logic for the game -->
   <script>
@@ -122,31 +122,29 @@
 
     let currentPlayer = 1;
 
-    // Function to send the move to the server
-    function sendMoveToServer(move) {
-      let xhr = new XMLHttpRequest();
-      xhr.open("POST", "angel_store_move.php", true);
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      let data = "move=" + move;
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          console.log(xhr.responseText); // You can handle the response here
-        }
-      };
-      xhr.send(data);
-    }
-
     // Function to get the current game state from the server
     function getGameStateFromServer() {
       let xhr = new XMLHttpRequest();
-      xhr.open("GET", "ange_get_state.php", true);
+      xhr.open("GET", "angel_get_state.php", true);
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
           let gameState = JSON.parse(xhr.responseText);
-          // Process the retrieved gameState as needed
+          updateBoard(gameState);
         }
       };
       xhr.send();
+    }
+
+    // Function to update the game board based on the retrieved game state
+    function updateBoard(gameState) {
+      let squares = document.querySelectorAll(".board div");
+      squares.forEach((square, index) => {
+        if (gameState[index] === "1") {
+          square.classList.add("player-one", "taken");
+        } else if (gameState[index] === "2") {
+          square.classList.add("player-two", "taken");
+        }
+      });
     }
 
     // Event listener for DOM content loading
@@ -179,35 +177,84 @@
       }
     }
 
+    // Function to send the player's move to the server
+    function sendMoveToServer(move) {
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "angel_store_move.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          getGameStateFromServer(); // Update the game state after storing the move
+        }
+      };
+      xhr.send("move=" + move);
+    }
+
+    // Function to get the current game state from the server
+    function getGameStateFromServer() {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", "angel_get_state.php", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          let gameState = JSON.parse(xhr.responseText);
+          updateBoard(gameState);
+        }
+      };
+      xhr.send();
+    }
+
+    // Function to update the game board based on the retrieved game state
+    function updateBoard(gameState) {
+      let squares = document.querySelectorAll(".board div");
+      squares.forEach((square, index) => {
+        square.classList.remove("player-one", "player-two", "taken");
+        if (gameState[index] === "1") {
+          square.classList.add("player-one", "taken");
+        } else if (gameState[index] === "2") {
+          square.classList.add("player-two", "taken");
+        }
+      });
+    }
+
     // Function to handle the click event on a board cell
     function clickBox() {
       let squares = document.querySelectorAll(".board div");
       let click = parseInt(this.dataset.id);
-      if (
-        squares[click + 7].classList.contains("taken") &&
-        !squares[click].classList.contains("taken")
-      ) {
+
+      let col = click % 7; // Get the column index
+      let columnCheck = Array.from(Array(6).keys()).map((_, i) => col + i * 7); // Get all cells in the column
+
+      // Check if the entire column is already taken
+      if (columnCheck.every((cell) => squares[cell].classList.contains("taken"))) {
+        alert("This column is full! Choose another column.");
+        return;
+      }
+
+      // Find the lowest empty cell in the clicked column
+      let lowestEmpty = columnCheck.reverse().find((cell) => !squares[cell].classList.contains("taken"));
+
+      if (lowestEmpty !== undefined) {
+        // Set the piece in the lowest empty cell
         if (currentPlayer === 1) {
           currentPlayer = 2;
           player.innerHTML = currentPlayer;
-          this.className = "player-one taken";
+          squares[lowestEmpty].classList.add("player-one", "taken");
           checkWon();
         } else if (currentPlayer === 2) {
           currentPlayer = 1;
           player.innerHTML = currentPlayer;
-          this.className = "player-two taken";
+          squares[lowestEmpty].classList.add("player-two", "taken");
           checkWon();
         }
-        if (box === 42) {
-          setTimeout(() => alert("boxes filled"), 300);
+
+        if (++box === 42) {
+          setTimeout(() => alert("Boxes filled"), 300);
           setTimeout(() => (restart.style.display = "flex"), 500);
         }
-      } else {
-        alert(
-          "You cannot build on an empty space or on a space that has been built on"
-        );
       }
     }
+
+
 
     // Function to check if there's a winner after each move
     function checkWon() {
@@ -239,12 +286,12 @@
   <!--Footer -->
   <footer>
     Group 3 <br>
-    <a href="/pages/bbao_landing.html">Brian Bao</a> •
-    <a href="/angel/angel_landing.html">Angel Crowe</a> •
-    <a href="/pages/login-christopher.html">Christopher Flores</a> •
-    <a href="/pages/cjLanding.html">Christian Jaime</a> •
-    <a href="/salman/landing-page/landingpage.html">Salman Khan</a> •
-    <a href="/pages/landing_Mubeensahibzada.html">Mubeen Sahibzada</a>
+    <a href="../pages/bbao_landing.html">Brian Bao</a> •
+    <a href="../angel/angel_landing.html">Angel Crowe</a> •
+    <a href="../pages/login-christopher.html">Christopher Flores</a> •
+    <a href="../pages/cjLanding.html">Christian Jaime</a> •
+    <a href="../salman/landing-page/landingpage.html">Salman Khan</a> •
+    <a href="../pages/landing_Mubeensahibzada.html">Mubeen Sahibzada</a>
   </footer>
 </body>
 
